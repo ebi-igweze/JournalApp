@@ -67,6 +67,7 @@ public class DetailsActivity extends AppCompatActivity {
                 intent.putExtra(Writeup.ITEM_ID, writeup.getId());
                 intent.putExtra(Writeup.ITEM_TEXT, writeup.getText());
                 intent.putExtra(Writeup.ITEM_TIME, writeup.getTime());
+                startActivity(intent);
                 return true;
             }
         }

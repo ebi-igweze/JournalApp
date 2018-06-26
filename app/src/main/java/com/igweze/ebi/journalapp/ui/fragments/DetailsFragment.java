@@ -54,7 +54,7 @@ public class DetailsFragment extends Fragment {
         Bundle args = getArguments();
         writeup = new Writeup();
 
-        if (getArguments() != null) {
+        if (args != null) {
             writeup.setId(args.getInt(Writeup.ITEM_ID, -1));
             writeup.setText(args.getString(Writeup.ITEM_TEXT));
             writeup.setTime(args.getString(Writeup.ITEM_TIME));
