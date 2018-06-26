@@ -4,13 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.igweze.ebi.journalapp.R;
 import com.igweze.ebi.journalapp.ui.DetailsActivity;
+import com.igweze.ebi.journalapp.ui.adapters.WriteupAdapter;
+import com.igweze.ebi.journalapp.ui.model.Writeup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -44,8 +52,12 @@ public class JournalListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_journal_list, container, false);
-        Button button = root.findViewById(R.id.showDetails);
-        button.setOnClickListener(v -> showDetails());
+
+        RecyclerView rv = root.findViewById(R.id.rvWriteupList);
+        List<Writeup> writeups = getWriteups();
+        rv.setAdapter(new WriteupAdapter(writeups));
+        rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.VERTICAL, false));
+
         return root;
     }
 
@@ -53,5 +65,17 @@ public class JournalListFragment extends Fragment {
         Intent intent = new Intent(getActivity(), DetailsActivity.class);
         intent.putExtra(DetailsActivity.ITEM_ID, "1");
         startActivity(intent);
+    }
+
+    private List<Writeup> getWriteups() {
+        List<Writeup> writeups = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Writeup writeup = new Writeup();
+            writeup.id = i;
+            writeup.time = i + "-12-2018";
+            writeup.text = getString(R.string.lorem_ipsum);
+            writeups.add(writeup);
+        }
+        return writeups;
     }
 }

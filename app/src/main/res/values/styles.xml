@@ -17,4 +17,22 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Journal" parent="AppTheme" />
+
+    <style name="Clickable" parent="AppTheme">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="Journal.WriteupItem" parent="Clickable">
+        <item name="android:padding">@dimen/container_padding</item>
+    </style>
+
+    <style name="Journal.WriteupSummary">
+        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
 </resources>
