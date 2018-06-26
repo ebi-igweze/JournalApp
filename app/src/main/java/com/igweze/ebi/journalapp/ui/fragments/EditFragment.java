@@ -16,8 +16,6 @@ import com.igweze.ebi.journalapp.R;
  * create an instance of this fragment.
  */
 public class EditFragment extends Fragment {
-    private static final String ITEM_ID = "item_id";
-    private String itemId;
 
     public EditFragment() {
         // Required empty public constructor
@@ -33,7 +31,6 @@ public class EditFragment extends Fragment {
     public static EditFragment newInstance(String itemId) {
         EditFragment fragment = new EditFragment();
         Bundle args = new Bundle();
-        args.putString(ITEM_ID, itemId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -41,9 +38,7 @@ public class EditFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            itemId = getArguments().getString(ITEM_ID);
-        }
+        if (getArguments() != null) { }
     }
 
     @Override

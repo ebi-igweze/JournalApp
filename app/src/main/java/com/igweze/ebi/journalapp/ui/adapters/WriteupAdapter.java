@@ -1,5 +1,7 @@
 package com.igweze.ebi.journalapp.ui.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.igweze.ebi.journalapp.R;
+import com.igweze.ebi.journalapp.ui.DetailsActivity;
 import com.igweze.ebi.journalapp.ui.model.Writeup;
 
 import java.util.List;
@@ -48,8 +51,18 @@ public class WriteupAdapter extends RecyclerView.Adapter<WriteupAdapter.ViewHold
         }
 
         public void bind(Writeup writeup) {
-            writeupTime.setText(writeup.time);
-            writeupText.setText(writeup.text);
+            writeupTime.setText(writeup.getTime());
+            writeupText.setText(writeup.getText());
+
+            View parent = (View) writeupTime.getParent();
+            parent.setOnClickListener(v -> {
+                Context ctx = v.getContext();
+                Intent intent = new Intent(ctx, DetailsActivity.class);
+                intent.putExtra(Writeup.ITEM_ID, writeup.getId());
+                intent.putExtra(Writeup.ITEM_TEXT, writeup.getText());
+                intent.putExtra(Writeup.ITEM_TIME, writeup.getTime());
+                ctx.startActivity(intent);
+            });
         }
     }
 }

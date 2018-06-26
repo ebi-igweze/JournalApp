@@ -61,19 +61,13 @@ public class JournalListFragment extends Fragment {
         return root;
     }
 
-    private void showDetails() {
-        Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra(DetailsActivity.ITEM_ID, "1");
-        startActivity(intent);
-    }
-
     private List<Writeup> getWriteups() {
         List<Writeup> writeups = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Writeup writeup = new Writeup();
-            writeup.id = i;
-            writeup.time = i + "-12-2018";
-            writeup.text = getString(R.string.lorem_ipsum);
+            writeup.setId(i);
+            writeup.setTime(i + "-12-2018");
+            writeup.setText(getString(R.string.lorem_ipsum));
             writeups.add(writeup);
         }
         return writeups;

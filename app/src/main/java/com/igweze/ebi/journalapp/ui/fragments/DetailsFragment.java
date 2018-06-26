@@ -8,9 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.igweze.ebi.journalapp.R;
 import com.igweze.ebi.journalapp.ui.EditActivity;
+import com.igweze.ebi.journalapp.ui.model.Writeup;
+
+import org.w3c.dom.Text;
 
 
 /**
@@ -19,10 +23,9 @@ import com.igweze.ebi.journalapp.ui.EditActivity;
  * create an instance of this fragment.
  */
 public class DetailsFragment extends Fragment {
-    private static final String ITEM_ID = "ITEM_ID";
 
-    // journal item id
-    private String itemId;
+    // writeup's details
+    private Writeup writeup;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -32,13 +35,15 @@ public class DetailsFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param itemId Parameter 1.
+     * @param writeup Parameter 1.
      * @return A new instance of fragment DetailsFragment.
      */
-    public static DetailsFragment newInstance(String itemId) {
+    public static DetailsFragment newInstance(Writeup writeup) {
         DetailsFragment fragment = new DetailsFragment();
         Bundle args = new Bundle();
-        args.putString(ITEM_ID, itemId);
+        args.putInt(Writeup.ITEM_ID, writeup.getId());
+        args.putString(Writeup.ITEM_TEXT, writeup.getText());
+        args.putString(Writeup.ITEM_TIME, writeup.getTime());
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,8 +51,13 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        writeup = new Writeup();
+
         if (getArguments() != null) {
-            itemId = getArguments().getString(ITEM_ID);
+            writeup.setId(args.getInt(Writeup.ITEM_ID, -1));
+            writeup.setText(args.getString(Writeup.ITEM_TEXT));
+            writeup.setTime(args.getString(Writeup.ITEM_TIME));
         }
     }
 
@@ -55,14 +65,14 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_details, container, false);
-        Button button = root.findViewById(R.id.showEdit);
-        button.setOnClickListener(v -> showEdit());
-        return root;
-    }
 
-    public void showEdit() {
-        Intent intent = new Intent(getActivity(), EditActivity.class);
-        intent.putExtra(EditActivity.ITEM_ID, itemId);
-        startActivity(intent);
+        // get view components
+        TextView time = root.findViewById(R.id.tvWriteupTime);
+        TextView text = root.findViewById(R.id.tvWriteupText);
+
+        // setup view details
+        time.setText(writeup.getTime());
+        text.setText(writeup.getText());
+        return root;
     }
 }
