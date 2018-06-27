@@ -12,6 +12,7 @@ import com.igweze.ebi.journalapp.R;
 import com.igweze.ebi.journalapp.ui.DetailsActivity;
 import com.igweze.ebi.journalapp.ui.model.Writeup;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class WriteupAdapter extends RecyclerView.Adapter<WriteupAdapter.ViewHolder> {
@@ -48,10 +49,12 @@ public class WriteupAdapter extends RecyclerView.Adapter<WriteupAdapter.ViewHold
             super(view);
             writeupTime = view.findViewById(R.id.tvWriteupTime);
             writeupText = view.findViewById(R.id.tvWriteupText);
+
         }
 
         public void bind(Writeup writeup) {
-            writeupTime.setText(writeup.getTime());
+
+            writeupTime.setText(Writeup.dateFormat.format(writeup.getTime()));
             writeupText.setText(writeup.getText());
 
             View parent = (View) writeupTime.getParent();

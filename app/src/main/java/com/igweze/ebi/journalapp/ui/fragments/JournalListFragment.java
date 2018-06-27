@@ -1,9 +1,11 @@
 package com.igweze.ebi.journalapp.ui.fragments;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +18,9 @@ import com.igweze.ebi.journalapp.R;
 import com.igweze.ebi.journalapp.ui.DetailsActivity;
 import com.igweze.ebi.journalapp.ui.adapters.WriteupAdapter;
 import com.igweze.ebi.journalapp.ui.model.Writeup;
+import com.igweze.ebi.journalapp.ui.model.WriteupListViewModel;
+import com.igweze.ebi.journalapp.ui.model.WriteupListViewModelFactory;
+import com.igweze.ebi.journalapp.utilities.InjectorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +32,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class JournalListFragment extends Fragment {
+    private WriteupListViewModel mViewModel;
 
     public JournalListFragment() {
         // Required empty public constructor
@@ -53,23 +59,17 @@ public class JournalListFragment extends Fragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_journal_list, container, false);
 
-        RecyclerView rv = root.findViewById(R.id.rvWriteupList);
-        List<Writeup> writeups = getWriteups();
-        rv.setAdapter(new WriteupAdapter(writeups));
-        rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.VERTICAL, false));
+        final RecyclerView rv = root.findViewById(R.id.rvWriteupList);
+
+        FragmentActivity activity = getActivity();
+        WriteupListViewModelFactory factory = InjectorUtils.provideListViewModelFactory(activity);
+        mViewModel = ViewModelProviders.of(activity, factory).get(WriteupListViewModel.class);
+
+        mViewModel.getWriteups().observe(this, writeups -> {
+            rv.setAdapter(new WriteupAdapter(writeups));
+            rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.VERTICAL, false));
+        });
 
         return root;
-    }
-
-    private List<Writeup> getWriteups() {
-        List<Writeup> writeups = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Writeup writeup = new Writeup();
-            writeup.setId(i);
-            writeup.setTime(i + "-12-2018");
-            writeup.setText(getString(R.string.lorem_ipsum));
-            writeups.add(writeup);
-        }
-        return writeups;
     }
 }

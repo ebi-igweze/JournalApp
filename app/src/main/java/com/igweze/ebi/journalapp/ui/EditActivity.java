@@ -14,6 +14,8 @@ import com.igweze.ebi.journalapp.R;
 import com.igweze.ebi.journalapp.ui.fragments.EditFragment;
 import com.igweze.ebi.journalapp.ui.model.Writeup;
 
+import java.util.Date;
+
 public class EditActivity extends AppCompatActivity {
     private Writeup writeup;
 
@@ -22,18 +24,22 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        writeup = new Writeup();
         Intent intent = getIntent();
-        writeup.setId(intent.getIntExtra(Writeup.ITEM_ID, -1));
-        writeup.setText(intent.getStringExtra(Writeup.ITEM_TEXT));
-        writeup.setTime(intent.getStringExtra(Writeup.ITEM_TIME));
+        int type = intent.getIntExtra(EditFragment.EDIT_TYPE, -1);
+        writeup = new Writeup(0, null, null);
 
-        // swap out the details content
+        if (type != -1 || type != EditFragment.TYPE_ADD) {
+            writeup.setId(intent.getIntExtra(Writeup.ITEM_ID, -1));
+            writeup.setText(intent.getStringExtra(Writeup.ITEM_TEXT));
+            writeup.setTime(new Date(intent.getLongExtra(Writeup.ITEM_TIME, -1)));
+        }
+
+        // swap out the edit content
         final FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment listFragment = EditFragment.newInstance(writeup);
+        Fragment editFragment = EditFragment.newInstance(writeup, type);
         fragmentManager
                 .beginTransaction()
-                .replace(R.id.editContent, listFragment)
+                .replace(R.id.editContent, editFragment)
                 .commit();
     }
 

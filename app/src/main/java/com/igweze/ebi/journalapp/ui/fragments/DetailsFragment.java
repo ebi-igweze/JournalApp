@@ -16,6 +16,10 @@ import com.igweze.ebi.journalapp.ui.model.Writeup;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +47,7 @@ public class DetailsFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt(Writeup.ITEM_ID, writeup.getId());
         args.putString(Writeup.ITEM_TEXT, writeup.getText());
-        args.putString(Writeup.ITEM_TIME, writeup.getTime());
+        args.putLong(Writeup.ITEM_TIME, writeup.getTime().getTime());
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,12 +56,12 @@ public class DetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        writeup = new Writeup();
+        writeup = new Writeup(0, null, null);
 
         if (args != null) {
             writeup.setId(args.getInt(Writeup.ITEM_ID, -1));
             writeup.setText(args.getString(Writeup.ITEM_TEXT));
-            writeup.setTime(args.getString(Writeup.ITEM_TIME));
+            writeup.setTime(new Date(args.getLong(Writeup.ITEM_TIME)));
         }
     }
 
@@ -71,7 +75,7 @@ public class DetailsFragment extends Fragment {
         TextView text = root.findViewById(R.id.tvWriteupText);
 
         // setup view details
-        time.setText(writeup.getTime());
+        time.setText(Writeup.dateFormat.format(writeup.getTime()));
         text.setText(writeup.getText());
         return root;
     }

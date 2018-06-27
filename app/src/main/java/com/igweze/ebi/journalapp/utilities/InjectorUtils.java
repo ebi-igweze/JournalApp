@@ -5,6 +5,7 @@ import android.content.Context;
 import com.igweze.ebi.journalapp.datastore.JournalDatabase;
 import com.igweze.ebi.journalapp.datastore.JournalRepository;
 import com.igweze.ebi.journalapp.ui.model.WriteupDetailViewModelFactory;
+import com.igweze.ebi.journalapp.ui.model.WriteupListViewModelFactory;
 
 public class InjectorUtils {
 
@@ -15,8 +16,16 @@ public class InjectorUtils {
 
         return JournalRepository.getInstance(database.writeupDao()); // , networkDataSource, executors);
     }
+
     public static WriteupDetailViewModelFactory provideDetailViewModelFactory(Context context) {
         JournalRepository repository = provideRepository(context.getApplicationContext());
         return new WriteupDetailViewModelFactory(repository);
     }
+
+    public static WriteupListViewModelFactory provideListViewModelFactory(Context context) {
+        JournalRepository repository = provideRepository(context.getApplicationContext());
+        return new WriteupListViewModelFactory(repository);
+    }
+
+
 }
