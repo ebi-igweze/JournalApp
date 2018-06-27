@@ -15,10 +15,10 @@ import java.util.List;
 public interface WriteupDao {
 
     @Query("SELECT * FROM writeup")
-    LiveData<List<Writeup>> queryWriteups();
+    LiveData<List<Writeup>> getWriteups();
 
     @Query("SELECT * FROM writeup WHERE id = :id")
-    LiveData<Writeup> queryWriteupWithId(int id);
+    LiveData<Writeup> getWriteupWithId(int id);
 
     @Insert
     void insertWriteup(Writeup writeup);
@@ -27,5 +27,5 @@ public interface WriteupDao {
     void updateWriteup(Writeup writeup);
 
     @Delete
-    void deleteWriteup(int id);
+    void deleteWriteup(Writeup writeup);
 }

@@ -1,4 +1,4 @@
 package com.igweze.ebi.journalapp.ui.model;
 
-public class JournalViewModel  {
+public class WriteupListViewModel {
 }
