@@ -11,10 +11,10 @@ public class InjectorUtils {
 
     public static JournalRepository provideRepository(Context context) {
         JournalDatabase database = JournalDatabase.getInstance(context.getApplicationContext());
-//        AppExecutors executors = AppExecutors.getInstance();
+        AppExecutors executors = AppExecutors.getInstance();
 //        WeatherNetworkDataSource networkDataSource = WeatherNetworkDataSource.getInstance(context.getApplicationContext(), executors);
 
-        return JournalRepository.getInstance(database.writeupDao()); // , networkDataSource, executors);
+        return JournalRepository.getInstance(database.writeupDao(), executors); // , networkDataSource);
     }
 
     public static WriteupDetailViewModelFactory provideDetailViewModelFactory(Context context) {

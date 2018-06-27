@@ -1,8 +1,7 @@
 package com.igweze.ebi.journalapp.ui;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,18 +9,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.igweze.ebi.journalapp.R;
-import com.igweze.ebi.journalapp.ui.fragments.DetailsFragment;
-import com.igweze.ebi.journalapp.ui.fragments.EditFragment;
-import com.igweze.ebi.journalapp.ui.fragments.JournalListFragment;
 import com.igweze.ebi.journalapp.ui.model.Writeup;
-
-import java.util.Date;
+import com.igweze.ebi.journalapp.ui.model.WriteupDetailViewModel;
+import com.igweze.ebi.journalapp.ui.model.WriteupDetailViewModelFactory;
+import com.igweze.ebi.journalapp.utilities.InjectorUtils;
 
 public class DetailsActivity extends AppCompatActivity {
-    private Writeup writeup;
+    private Writeup mWriteup;
+    private WriteupDetailViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +33,27 @@ public class DetailsActivity extends AppCompatActivity {
         // display back button
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
-        writeup = new Writeup(0, null, null);
+        mWriteup = new Writeup(0, null, null);
         Intent intent = getIntent();
-        writeup.setId(intent.getIntExtra(Writeup.ITEM_ID, -1));
-        writeup.setText(intent.getStringExtra(Writeup.ITEM_TEXT));
-        writeup.setTime(new Date(intent.getLongExtra(Writeup.ITEM_TIME, -1)));
+        int writeupId = intent.getIntExtra(Writeup.ITEM_ID, -1);
 
-        // swap out the details content
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment detailsFragment = DetailsFragment.newInstance(writeup);
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.detailsContent, detailsFragment)
-                .commit();
+        // get view components
+        final TextView time = findViewById(R.id.tvWriteupTime);
+        final TextView text = findViewById(R.id.tvWriteupText);
+
+        // get details view model
+        WriteupDetailViewModelFactory factory = InjectorUtils.provideDetailViewModelFactory(this);
+        mViewModel = ViewModelProviders.of(this, factory).get(WriteupDetailViewModel.class);
+
+        // setup observer
+        mViewModel.getWriteup(writeupId).observe(this, writeup -> {
+            if (writeup != null) {
+                // setup view details
+                this.mWriteup = writeup;
+                time.setText(Writeup.dateFormat.format(writeup.getTime()));
+                text.setText(writeup.getText());
+            }
+        });
     }
 
     @Override
@@ -58,26 +65,50 @@ public class DetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (mWriteup == null) {
+            Toast.makeText(this, "Still loading...", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
         switch (item.getItemId()) {
             case R.id.delete:{
-                // delete item
-                Toast.makeText(this, "Delete was successful", Toast.LENGTH_LONG).show();
+                showAlert();
                 return true;
             }
             case R.id.edit: {
-                // edit item in edit activity
-                Intent intent = new Intent(this, EditActivity.class);
-                // set type to edit action
-                intent.putExtra(EditFragment.EDIT_TYPE, EditFragment.TYPE_EDIT);
-                // add write up info
-                intent.putExtra(Writeup.ITEM_ID, writeup.getId());
-                intent.putExtra(Writeup.ITEM_TEXT, writeup.getText());
-                intent.putExtra(Writeup.ITEM_TIME, writeup.getTime().getTime());
-                startActivity(intent);
+                gotoEdit();
                 return true;
             }
         }
 
         return false;
+    }
+
+    private void gotoEdit() {
+        // edit item in edit activity
+        Intent intent = new Intent(this, EditActivity.class);
+        // set type to edit action
+        intent.putExtra(EditActivity.EDIT_TYPE, EditActivity.TYPE_EDIT);
+        // add write up info
+        intent.putExtra(Writeup.ITEM_ID, mWriteup.getId());
+        intent.putExtra(Writeup.ITEM_TEXT, mWriteup.getText());
+        intent.putExtra(Writeup.ITEM_TIME, mWriteup.getTime().getTime());
+        startActivity(intent);
+    }
+
+    private void showAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setTitle(R.string.title_action_delete)
+                .setMessage(R.string.message_warning_delete)
+                .setPositiveButton(R.string.action_accept, (v, i) -> deleteWriteup())
+                .setNegativeButton(R.string.action_cancel, (v, i) -> {})
+                .create().show();
+    }
+
+    private void deleteWriteup() {
+        mViewModel.deleteWriteup(mWriteup);
+        Toast.makeText(this, "Delete was successful", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

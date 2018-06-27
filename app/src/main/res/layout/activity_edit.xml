@@ -7,9 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.EditActivity">
 
-    <FrameLayout
-        android:id="@+id/editContent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/tvWriteupText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/content_padding"
+            android:background="@null"
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
+            android:overScrollMode="always"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            tools:text="@string/lorem_ipsum"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:scrollHorizontally="false" />
 
 </LinearLayout>
