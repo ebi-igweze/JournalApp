@@ -12,4 +12,6 @@
     <string name="action_cancel">No</string>
     <string name="title_action_delete">Delete</string>
     <string name="message_warning_delete">Are you sure you want to delete this Writeup, this action cannot be reversed.</string>
+    <string name="application_logo">Application Logo</string>
+    <string name="web_client_id">936292870859-tj795gu0cohajastmo75b1avnhstqcmv.apps.googleusercontent.com</string>
 </resources>
