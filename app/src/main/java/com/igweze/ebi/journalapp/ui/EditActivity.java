@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,6 +33,10 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+
+        // set support action bar with toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
         editType = intent.getIntExtra(EDIT_TYPE, -1);
@@ -69,11 +74,21 @@ public class EditActivity extends AppCompatActivity {
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        this.saveChanges();
+    }
 
     private void saveChanges() {
+        // get the text value
+        String text = editText.getText().toString();
+
+        // ensure text has value
+        if (text.isEmpty()) return;
+
         String message;
         // set text and save changes
-        writeup.setText(editText.getText().toString());
+        writeup.setText(text);
         if (this.editType == TYPE_ADD) {
             writeup.setTime(new Date());
             mViewModel.addWriteup(writeup);
@@ -85,7 +100,7 @@ public class EditActivity extends AppCompatActivity {
             gotoDetails();
         } else {
             message = "Unable to perform action";
-            gotoDetails();
+            gotoList();
         }
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }

@@ -4,4 +4,5 @@
     <dimen name="container_padding">15dp</dimen>
     <dimen name="small_text">12sp</dimen>
     <dimen name="content_padding">5dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
 </resources>

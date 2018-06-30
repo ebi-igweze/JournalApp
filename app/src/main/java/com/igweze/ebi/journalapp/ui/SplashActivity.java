@@ -18,9 +18,12 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.igweze.ebi.journalapp.R;
+import com.igweze.ebi.journalapp.services.SharedPreferenceService;
+import com.igweze.ebi.journalapp.ui.model.UserInfo;
 
 public class SplashActivity extends AppCompatActivity {
     private static int RC_SIGN_IN = 200;
@@ -31,7 +34,6 @@ public class SplashActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
 
     private FirebaseAuth mAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
         // create google signIn options
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.web_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
@@ -65,14 +67,6 @@ public class SplashActivity extends AppCompatActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if (account == null) showButton(true);
         else authenticateWithFirebase(account);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // check if user is signed in
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        gotoHome(currentUser);
     }
 
     private void gotoHome(FirebaseUser currentUser) {
@@ -119,19 +113,37 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void authenticateWithFirebase(GoogleSignInAccount account) {
-        Log.d(TAG, "firebaseAuthWithGoogle: " + account.getId());
-        String accountId = account.getId();
-        AuthCredential credential = GoogleAuthProvider.getCredential(accountId, null);
+        // check if user is signed in
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            gotoHome(currentUser);
+            return;
+        }
+
+        // else sign in user with firebase
+        Log.d(TAG, "firebase auth with account id: " + account.getId());
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
 
         mAuth.signInWithCredential(credential)
              .addOnCompleteListener(task -> {
                  if (task.isSuccessful()) {
                      Log.d(TAG, "firebase sign in: SUCCESS");
+                     // save the user's information.
+                     UserInfo userInfo = new UserInfo(account.getGivenName(), account.getFamilyName(), account.getEmail());
+                     new SharedPreferenceService(this).setUser(userInfo);
+                     // navigate to the main activity
                      gotoHome(mAuth.getCurrentUser());
                  } else {
                      Log.w(TAG, "firebase sign in: FAILED");
                      Toast.makeText(this, "Authentication Failed", Toast.LENGTH_LONG).show();
                  }
+             })
+             .addOnFailureListener(e -> {
+                 if (e instanceof FirebaseAuthException) {
+                     String code = ((FirebaseAuthException) e).getErrorCode();
+                     Log.e(TAG, "firebase auth exception code: "+ code);
+                 }
+                 Log.e(TAG, e.getMessage());
              });
     }
 
