@@ -113,6 +113,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void authenticateWithFirebase(GoogleSignInAccount account) {
+        // hide button and show spinner
+        showButton(false);
+
         // check if user is signed in
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -124,6 +127,7 @@ public class SplashActivity extends AppCompatActivity {
         Log.d(TAG, "firebase auth with account id: " + account.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
 
+        // sign in with google credentials
         mAuth.signInWithCredential(credential)
              .addOnCompleteListener(task -> {
                  if (task.isSuccessful()) {

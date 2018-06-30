@@ -66,8 +66,13 @@ public class EditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.save: {
-                // save to storage and go back to edit
+                // save to storage and navigate back
                 this.saveChanges();
+                return true;
+            }
+            case R.id.cancel: {
+                // cancel edit and navigate back
+                this.cancel();
                 return true;
             }
         }
@@ -77,6 +82,7 @@ public class EditActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         this.saveChanges();
+        super.onBackPressed();
     }
 
     private void saveChanges() {
@@ -103,6 +109,11 @@ public class EditActivity extends AppCompatActivity {
             gotoList();
         }
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    private void cancel() {
+        if (this.editType == TYPE_EDIT) gotoDetails();
+        else gotoList();
     }
 
     private void gotoList() {
