@@ -9,12 +9,11 @@ import com.igweze.ebi.journalapp.ui.model.WriteupListViewModelFactory;
 
 public class InjectorUtils {
 
-    public static JournalRepository provideRepository(Context context) {
+    private static JournalRepository provideRepository(Context context) {
         JournalDatabase database = JournalDatabase.getInstance(context.getApplicationContext());
         AppExecutors executors = AppExecutors.getInstance();
-//        WeatherNetworkDataSource networkDataSource = WeatherNetworkDataSource.getInstance(context.getApplicationContext(), executors);
 
-        return JournalRepository.getInstance(database.writeupDao(), executors); // , networkDataSource);
+        return JournalRepository.getInstance(database.writeupDao(), executors);
     }
 
     public static WriteupDetailViewModelFactory provideDetailViewModelFactory(Context context) {
@@ -26,6 +25,4 @@ public class InjectorUtils {
         JournalRepository repository = provideRepository(context.getApplicationContext());
         return new WriteupListViewModelFactory(repository);
     }
-
-
 }

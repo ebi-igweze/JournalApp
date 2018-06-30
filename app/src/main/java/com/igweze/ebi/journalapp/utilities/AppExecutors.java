@@ -16,19 +16,9 @@
 
 package com.igweze.ebi.journalapp.utilities;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-/**
- * Global executor pools for the whole application.
- * <p>
- * Grouping tasks like this avoids the effects of task starvation (e.g. disk reads don't wait behind
- * webservice requests).
- */
 public class AppExecutors {
 
     // For Singleton instantiation

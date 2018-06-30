@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.igweze.ebi.journalapp.R;
 import com.igweze.ebi.journalapp.ui.DetailsActivity;
 import com.igweze.ebi.journalapp.ui.model.Writeup;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class WriteupAdapter extends RecyclerView.Adapter<WriteupAdapter.ViewHolder> {
@@ -45,14 +45,14 @@ public class WriteupAdapter extends RecyclerView.Adapter<WriteupAdapter.ViewHold
         private TextView writeupTime;
         private TextView writeupText;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             writeupTime = view.findViewById(R.id.tvWriteupTime);
             writeupText = view.findViewById(R.id.tvWriteupText);
 
         }
 
-        public void bind(Writeup writeup) {
+        void bind(Writeup writeup) {
 
             writeupTime.setText(Writeup.dateFormat.format(writeup.getTime()));
             writeupText.setText(writeup.getText());

@@ -7,7 +7,6 @@ import com.igweze.ebi.journalapp.datastore.JournalRepository;
 
 public class WriteupDetailViewModel extends ViewModel {
 
-    private LiveData<Writeup> mWriteup;
     private JournalRepository mRepository;
 
     public  WriteupDetailViewModel(JournalRepository repository) {
@@ -15,8 +14,7 @@ public class WriteupDetailViewModel extends ViewModel {
     }
 
     public LiveData<Writeup> getWriteup(int id) {
-        this.mWriteup = mRepository.getWriteupById(id);
-        return mWriteup;
+        return mRepository.getWriteupById(id);
     }
 
     public void addWriteup(Writeup writeup) { mRepository.addWriteup(writeup); }

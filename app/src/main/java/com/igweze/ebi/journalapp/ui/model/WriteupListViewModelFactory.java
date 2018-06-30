@@ -14,6 +14,7 @@ public class WriteupListViewModelFactory extends  ViewModelProvider.NewInstanceF
         mRepository = repository;
     }
 
+    @NonNull
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         // noinspection unchecked
         return (T) new WriteupListViewModel(mRepository);

@@ -6,8 +6,13 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_sign_out"
-            android:icon="@drawable/logout"
+            android:icon="@drawable/ic_logout"
             android:title="@string/title_sign_out" />
+
+        <item
+            android:id="@+id/nav_sign_in"
+            android:icon="@drawable/ic_login_24dp"
+            android:title="@string/title_sign_in" />
     </group>
 
 </menu>

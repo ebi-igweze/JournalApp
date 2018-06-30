@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/content_padding"
+        android:contentDescription="@string/content_description_header_nav"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
