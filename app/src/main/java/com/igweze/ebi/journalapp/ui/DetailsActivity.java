@@ -38,7 +38,7 @@ public class DetailsActivity extends AppCompatActivity {
         // display back button
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mWriteup = new Writeup(0, null, null);
+        mWriteup = new Writeup(null, null);
         Intent intent = getIntent();
         int writeupId = intent.getIntExtra(Writeup.ITEM_ID, -1);
 

@@ -25,19 +25,15 @@ public class AppExecutors {
     private static final Object LOCKER = new Object();
     private static AppExecutors sInstance;
     private final Executor diskIO;
-    private final Executor networkIO;
 
-    private AppExecutors(Executor diskIO, Executor networkIO) {
+    private AppExecutors(Executor diskIO) {
         this.diskIO = diskIO;
-        this.networkIO = networkIO;
     }
 
     public static AppExecutors getInstance() {
         if (sInstance == null) {
             synchronized (LOCKER) {
-                sInstance = new AppExecutors(
-                        Executors.newSingleThreadExecutor(),
-                        Executors.newFixedThreadPool(3));
+                sInstance = new AppExecutors(Executors.newSingleThreadExecutor());
             }
         }
         return sInstance;
@@ -45,9 +41,5 @@ public class AppExecutors {
 
     public Executor diskIO() {
         return diskIO;
-    }
-
-    public Executor networkIO() {
-        return networkIO;
     }
 }

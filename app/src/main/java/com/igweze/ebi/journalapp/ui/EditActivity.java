@@ -40,7 +40,7 @@ public class EditActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         editType = intent.getIntExtra(EDIT_TYPE, -1);
-        writeup = new Writeup(0, null, null);
+        writeup = new Writeup(null, null);
         editText = findViewById(R.id.tvWriteupText);
 
         if (editType != -1 && editType == TYPE_EDIT) {

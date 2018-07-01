@@ -61,9 +61,10 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$arch_room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$arch_room_version"
 
-    // fire-base auth services
+    // fire-base services
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.2'
+    implementation 'com.google.firebase:firebase-database:16.0.1'
 
     // google auth services
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
