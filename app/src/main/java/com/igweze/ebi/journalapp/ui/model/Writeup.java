@@ -13,7 +13,7 @@ public class Writeup {
     public static final String ITEM_ID = "ITEM_ID";
     public static final String ITEM_TEXT = "ITEM_TEXT";
     public static final String ITEM_TIME = "ITEM_TIME";
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.ENGLISH);
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMMM, yyyy hh:mma", Locale.ENGLISH);
     public static final int SINGED_IN = 1;
     public static final int LOGGED_OUT = 0;
     public static final int ACTIVE = 0;

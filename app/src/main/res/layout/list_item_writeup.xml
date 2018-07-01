@@ -18,6 +18,7 @@
             android:id="@+id/tvWriteupTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/small_text"
             tools:text="@string/sample_date"/>
 
         <TextView

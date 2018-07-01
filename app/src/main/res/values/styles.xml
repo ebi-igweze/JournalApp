@@ -25,7 +25,7 @@
     </style>
 
     <style name="Journal.WriteupSummary">
-        <item name="android:textSize">@dimen/small_text</item>
+        <item name="android:textSize">@dimen/normal_text</item>
         <item name="android:maxLines">3</item>
         <item name="android:ellipsize">end</item>
     </style>
