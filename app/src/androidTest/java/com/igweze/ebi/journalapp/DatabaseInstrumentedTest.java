@@ -100,6 +100,6 @@ public class DatabaseInstrumentedTest {
         final int sampleId = 7;
         final Date currentDate = new Date();
         final String sampleText = "Some sample test text";
-        return new Writeup(sampleId, currentDate, sampleText, offline);
+        return new Writeup(sampleId, currentDate, sampleText, Writeup.SINGED_IN, Writeup.ACTIVE);
     }
 }

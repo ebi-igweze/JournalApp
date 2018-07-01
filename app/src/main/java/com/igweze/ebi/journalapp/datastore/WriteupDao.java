@@ -40,4 +40,7 @@ public interface WriteupDao {
 
     @Delete
     void deleteAll(List<Writeup> writeups);
+
+    @Query("DELETE FROM writeup")
+    void clearDb();
 }
