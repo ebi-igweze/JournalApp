@@ -15,6 +15,7 @@ A simple Journal application, that helps you write down your thoughts and daily 
 
 
 # Getting started
+To run the app without installation, you can get the [apk](https://github.com/ebi-igweze/JournalApp/blob/master/app/release/app-release.apk) file.
 
 ### Installation
 
