@@ -8,8 +8,9 @@ A simple Journal application, that helps you write down your thoughts and daily 
 * [Architecture Components - ViewModel](https://developer.android.com/topic/libraries/architecture/)
 * [Room Persistence](https://developer.android.com/topic/libraries/architecture/room)
 * [Gson](https://github.com/google/gson)
-* [Firebase](https://firebase.google.com/docs/)
+* [Firebase](https://firebase.google.com/docs)
 * [JUnit4](https://github.com/junit-team/junit4)
+* [Mockito](http://site.mockito.org)
 * [Espresso](https://developer.android.com/training/testing/espresso/)
 
 
